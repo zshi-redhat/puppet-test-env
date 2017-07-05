@@ -1,0 +1,33 @@
+---
+- name: List outstanding requests
+  shell: ./puppet cert list
+  args:
+    chdir: /opt/puppetlabs/bin
+  register: sign_requests
+
+- name: Debug sign request output
+  debug: "msg={{ sign_requests.stdout_lines }}"
+
+- name: Sign cert reqeust
+  shell: ./puppet cert sign --all
+  args:
+    chdir: /opt/puppetlabs/bin
+    creates: /opt/puppetlabs/.sign_cert_all
+
+- name: List all signed and unsigned requests
+  shell: ./puppet cert list --all
+  args:
+    chdir: /opt/puppetlabs/bin
+  register: all_requests
+
+- name: Debug sign request output
+  debug: "msg={{ all_requests.stdout_lines }}"
+
+- name: Verify puppet agent
+  shell: ./puppet agent --test
+  args:
+    chdir: /opt/puppetlabs/bin
+  register: verify
+
+- name: Debug puppet agent
+  debug: "msg={{ verify.stdout_lines }}"

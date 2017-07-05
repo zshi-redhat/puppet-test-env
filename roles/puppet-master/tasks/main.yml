@@ -1,0 +1,17 @@
+---
+- name: Install puppet master package
+  yum:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - { name: puppetserver }
+
+- name: Change puppet master hostname
+  hostname:
+    name: '{{ master_hostname }}'
+
+- name: Start & enable puppetserver service
+  service:
+    name: puppetserver
+    state: started
+    enabled: yes

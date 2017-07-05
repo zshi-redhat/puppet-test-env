@@ -1,0 +1,25 @@
+---
+- name: Install puppet agent package
+  yum:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - { name: puppet-agent }
+
+- name: Change puppet agent hostname
+  hostname:
+    name: '{{ agent_hostname }}'
+
+- name: Configure puppet agent
+  ini_file:
+    path: /etc/puppetlabs/puppet/puppet.conf
+    section: main
+    option: server
+    value: '{{ master_hostname }}'
+    backup: yes
+
+- name: Start puppet agent and make it start automatically on system boot
+  shell: ./puppet resource service puppet ensure=running enable=true
+  args:
+    chdir: /opt/puppetlabs/bin
+    creates: /opt/puppetlabs/.start_enable_puppet_agent

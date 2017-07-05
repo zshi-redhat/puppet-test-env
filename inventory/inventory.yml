@@ -1,0 +1,15 @@
+puppet-master   ansible_host=192.168.122.100
+puppet-agent    ansible_host=192.168.122.101
+
+[master]
+puppet-master
+
+[agent]
+puppet-agent
+
+[all]
+puppet-master
+puppet-agent
+
+[all:vars]
+ansible_ssh_user=root
