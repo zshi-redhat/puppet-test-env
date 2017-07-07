@@ -1,27 +1,36 @@
 ---
-- hosts: master
+- hosts: all
   become: true
   become_user: root
-  vars_file:
+  vars_files:
     - vars/all.yml
   tasks: []
   roles:
-    - { puppet-master }
+    - { role: puppet-repo }
+
+- hosts: master
+  become: true
+  become_user: root
+  vars_files:
+    - vars/all.yml
+  tasks: []
+  roles:
+    - { role: puppet-master }
 
 - hosts: agent
   become: true
   become_user: root
-  vars_file:
+  vars_files:
     - vars/all.yml
   tasks: []
   roles:
-    - { puppet-slave }
+    - { role: puppet-agent }
 
 - hosts: master
   become: true
   become_user: root
-  vars_file:
+  vars_files:
     - vars/all.yml
   tasks: []
   roles:
-    - { sign-agent }
+    - { role: sign-agent }

@@ -1,0 +1,5 @@
+---
+- name: Install puppetlab repo
+  shell: rpm -Uvh {{ puppetlab_repo }}
+  args:
+    creates: /etc/yum.repos.d/.puppetlab_repo

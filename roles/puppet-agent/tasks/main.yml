@@ -1,7 +1,7 @@
 ---
 - name: Install puppet agent package
   yum:
-    name: '{{ item }}'
+    name: '{{ item.name }}'
     state: present
   with_items:
     - { name: puppet-agent }
@@ -17,6 +17,12 @@
     option: server
     value: '{{ master_hostname }}'
     backup: yes
+
+- name: Configure puppet master in /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    state: present
+    line: "{{ master_ip_address }} {{ master_hostname }} {{ master_hostname }}"
 
 - name: Start puppet agent and make it start automatically on system boot
   shell: ./puppet resource service puppet ensure=running enable=true

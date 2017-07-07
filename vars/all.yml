@@ -2,4 +2,5 @@
 puppetlab_repo: https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
 
 master_hostname: puppet_master
+master_ip_address: 192.168.122.10
 agent_hostname: puppet_agent

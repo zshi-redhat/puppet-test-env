@@ -1,7 +1,7 @@
 ---
 - name: Install puppet master package
   yum:
-    name: '{{ item }}'
+    name: '{{ item.name }}'
     state: present
   with_items:
     - { name: puppetserver }
@@ -15,3 +15,10 @@
     name: puppetserver
     state: started
     enabled: yes
+
+- name: Copy site.pp test file
+  copy:
+    src: "{{ item.source }}"
+    dest: "{{ item.destination }}"
+  with_items:
+    - { source: "site.pp", destination: "/etc/puppetlabs/code/environments/production/manifests/" }
